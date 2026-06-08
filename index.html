@@ -1,0 +1,672 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Manual do Carro — Palio</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Archivo:wght@400;600;800;900&family=Space+Mono:wght@400;700&display=swap');
+
+  :root {
+    --bg: #0f1115;
+    --panel: #181b22;
+    --panel-2: #1f232c;
+    --line: #2a2f3a;
+    --red: #e8472b;
+    --red-dim: #b8351f;
+    --amber: #f5a623;
+    --green: #2ecc71;
+    --text: #e8eaed;
+    --muted: #8b919c;
+    --accent: #e8472b;
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  body {
+    font-family: 'Archivo', sans-serif;
+    background:
+      radial-gradient(circle at 15% 10%, rgba(232,71,43,0.08), transparent 40%),
+      radial-gradient(circle at 85% 90%, rgba(245,166,35,0.05), transparent 40%),
+      var(--bg);
+    color: var(--text);
+    min-height: 100vh;
+    padding: 24px 16px 80px;
+    line-height: 1.5;
+  }
+
+  .wrap { max-width: 980px; margin: 0 auto; }
+
+  /* Header */
+  header {
+    border: 1px solid var(--line);
+    border-radius: 16px;
+    padding: 28px 26px;
+    background: linear-gradient(135deg, var(--panel), var(--panel-2));
+    position: relative;
+    overflow: hidden;
+    margin-bottom: 28px;
+  }
+  header::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 0; right: 0;
+    height: 4px;
+    background: linear-gradient(90deg, var(--red), var(--amber), var(--red));
+  }
+  header .tag {
+    font-family: 'Space Mono', monospace;
+    font-size: 12px;
+    letter-spacing: 3px;
+    color: var(--accent);
+    text-transform: uppercase;
+  }
+  header h1 {
+    font-weight: 900;
+    font-size: clamp(28px, 5vw, 44px);
+    letter-spacing: -1px;
+    margin-top: 6px;
+    line-height: 1.05;
+  }
+  header p {
+    color: var(--muted);
+    margin-top: 8px;
+    font-size: 14px;
+    max-width: 560px;
+  }
+
+  /* Section titles */
+  .section-title {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    margin: 40px 0 18px;
+  }
+  .section-title h2 {
+    font-weight: 800;
+    font-size: 22px;
+    letter-spacing: -0.5px;
+    text-transform: uppercase;
+  }
+  .section-title .bar {
+    width: 6px;
+    height: 28px;
+    background: var(--accent);
+    border-radius: 3px;
+  }
+
+  /* Two-column step layout */
+  .steps-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 20px;
+  }
+  @media (max-width: 720px) { .steps-grid { grid-template-columns: 1fr; } }
+
+  .step-card {
+    border: 1px solid var(--line);
+    border-radius: 14px;
+    background: var(--panel);
+    overflow: hidden;
+  }
+  .step-card .head {
+    padding: 16px 20px;
+    font-weight: 800;
+    font-size: 15px;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+  .step-card.start .head { background: rgba(46,204,113,0.12); color: var(--green); border-bottom: 1px solid var(--line); }
+  .step-card.stop .head { background: rgba(232,71,43,0.12); color: var(--red); border-bottom: 1px solid var(--line); }
+  .step-card .head .icon { font-size: 18px; }
+
+  ol.steps {
+    list-style: none;
+    counter-reset: step;
+    padding: 12px 18px 18px;
+  }
+  ol.steps li {
+    counter-increment: step;
+    position: relative;
+    padding: 9px 0 9px 40px;
+    border-bottom: 1px dashed var(--line);
+    font-size: 14px;
+  }
+  ol.steps li:last-child { border-bottom: none; }
+  ol.steps li::before {
+    content: counter(step);
+    position: absolute;
+    left: 0; top: 8px;
+    width: 26px; height: 26px;
+    border-radius: 7px;
+    background: var(--panel-2);
+    border: 1px solid var(--line);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-family: 'Space Mono', monospace;
+    font-size: 12px;
+    font-weight: 700;
+    color: var(--muted);
+  }
+  ol.steps li .note {
+    font-family: 'Space Mono', monospace;
+    font-size: 10px;
+    background: var(--accent);
+    color: #fff;
+    padding: 1px 6px;
+    border-radius: 4px;
+    margin-right: 6px;
+    letter-spacing: 0.5px;
+    white-space: nowrap;
+  }
+
+  /* Checklist */
+  .checklist-intro {
+    color: var(--muted);
+    font-size: 14px;
+    margin-bottom: 16px;
+  }
+  .progress-wrap {
+    border: 1px solid var(--line);
+    border-radius: 12px;
+    background: var(--panel);
+    padding: 16px 20px;
+    margin-bottom: 22px;
+    display: flex;
+    align-items: center;
+    gap: 16px;
+  }
+  .progress-track {
+    flex: 1;
+    height: 12px;
+    background: var(--panel-2);
+    border-radius: 8px;
+    overflow: hidden;
+    border: 1px solid var(--line);
+  }
+  .progress-fill {
+    height: 100%;
+    width: 0%;
+    background: linear-gradient(90deg, var(--red), var(--amber));
+    transition: width 0.4s ease;
+  }
+  .progress-label {
+    font-family: 'Space Mono', monospace;
+    font-size: 13px;
+    font-weight: 700;
+    color: var(--text);
+    white-space: nowrap;
+  }
+
+  .cat-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 16px;
+  }
+  @media (max-width: 900px) { .cat-grid { grid-template-columns: repeat(2, 1fr); } }
+  @media (max-width: 560px) { .cat-grid { grid-template-columns: 1fr; } }
+
+  .cat {
+    margin-bottom: 0;
+    border: 1px solid var(--line);
+    border-radius: 13px;
+    background: var(--panel-2);
+    padding: 14px 13px;
+  }
+  .cat-head {
+    font-weight: 700;
+    font-size: 12px;
+    text-transform: uppercase;
+    letter-spacing: 1.2px;
+    color: var(--muted);
+    margin-bottom: 12px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+  .cat-head .dot { width: 9px; height: 9px; border-radius: 50%; flex-shrink: 0; }
+  .dot.urgent { background: var(--red); }
+  .dot.important { background: var(--amber); }
+  .dot.nice { background: var(--green); }
+  .dot.have { background: var(--muted); }
+
+  .items {
+    display: grid;
+    gap: 8px;
+  }
+
+  .item {
+    display: flex;
+    align-items: flex-start;
+    gap: 11px;
+    padding: 11px 12px;
+    border: 1px solid var(--line);
+    border-radius: 10px;
+    background: var(--panel);
+    cursor: pointer;
+    transition: border-color 0.2s, background 0.2s, transform 0.1s;
+    user-select: none;
+  }
+  .item:hover { border-color: var(--accent); transform: translateX(2px); }
+  .item:active { transform: scale(0.995); }
+
+  .box {
+    flex-shrink: 0;
+    width: 22px; height: 22px;
+    border-radius: 6px;
+    border: 2px solid var(--line);
+    background: var(--panel-2);
+    position: relative;
+    transition: all 0.2s;
+    margin-top: 1px;
+  }
+  .item.checked .box {
+    background: var(--green);
+    border-color: var(--green);
+  }
+  .item.checked .box::after {
+    content: '';
+    position: absolute;
+    left: 6px; top: 2px;
+    width: 6px; height: 10px;
+    border: solid #0f1115;
+    border-width: 0 3px 3px 0;
+    transform: rotate(45deg);
+  }
+  .item .label { font-size: 13.5px; font-weight: 600; line-height: 1.3; }
+  .item .sub { font-size: 11.5px; color: var(--muted); margin-top: 3px; font-weight: 400; line-height: 1.35; }
+  .item.checked .label { color: var(--muted); text-decoration: line-through; text-decoration-color: var(--green); }
+
+  /* Rotina / ações frequentes */
+  .routine-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 14px;
+  }
+  @media (max-width: 900px) { .routine-grid { grid-template-columns: repeat(2, 1fr); } }
+  @media (max-width: 560px) { .routine-grid { grid-template-columns: 1fr; } }
+
+  .routine-card {
+    border: 1px solid var(--line);
+    border-radius: 13px;
+    background: var(--panel);
+    padding: 18px 18px;
+    position: relative;
+    overflow: hidden;
+  }
+  .routine-card::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 0;
+    width: 4px; height: 100%;
+    background: var(--amber);
+  }
+  .routine-card .freq {
+    font-family: 'Space Mono', monospace;
+    font-size: 11px;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    color: var(--amber);
+    font-weight: 700;
+    margin-bottom: 10px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+  .routine-card .freq .ic { font-size: 15px; }
+  .routine-card .desc { font-size: 14px; line-height: 1.45; }
+  .routine-card .desc .hint { display: block; font-size: 12px; color: var(--muted); margin-top: 6px; }
+
+  /* Emergency numbers */
+  .emg-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 14px;
+  }
+  @media (max-width: 760px) { .emg-grid { grid-template-columns: repeat(2, 1fr); } }
+  @media (max-width: 480px) { .emg-grid { grid-template-columns: 1fr; } }
+
+  .emg-block {
+    border: 1px solid var(--line);
+    border-radius: 13px;
+    background: var(--panel);
+    padding: 16px 16px 8px;
+  }
+  .emg-block.guincho { grid-column: 1 / -1; }
+  .emg-block h3 {
+    font-size: 12px;
+    text-transform: uppercase;
+    letter-spacing: 1.2px;
+    color: var(--muted);
+    margin-bottom: 12px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+  .emg-list { display: grid; gap: 0; }
+  .guincho .emg-list {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 0 24px;
+  }
+  @media (max-width: 620px) { .guincho .emg-list { grid-template-columns: 1fr; } }
+
+  .emg-row {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 10px;
+    padding: 11px 0;
+    border-bottom: 1px dashed var(--line);
+  }
+  .emg-row:last-child { border-bottom: none; }
+  .emg-row .name { font-size: 13.5px; font-weight: 600; }
+  .emg-row .name .meta { display: block; font-size: 11px; color: var(--muted); font-weight: 400; margin-top: 2px; }
+  .emg-row .num {
+    font-family: 'Space Mono', monospace;
+    font-size: 15px;
+    font-weight: 700;
+    color: var(--accent);
+    white-space: nowrap;
+    text-decoration: none;
+    padding: 4px 10px;
+    border: 1px solid var(--line);
+    border-radius: 8px;
+    transition: all 0.2s;
+  }
+  a.num:hover { border-color: var(--accent); background: rgba(232,71,43,0.1); }
+  .emg-row .num.big { font-size: 18px; color: var(--red); }
+
+  .reset-btn {
+    margin-top: 8px;
+    background: transparent;
+    border: 1px solid var(--line);
+    color: var(--muted);
+    font-family: 'Space Mono', monospace;
+    font-size: 12px;
+    padding: 9px 16px;
+    border-radius: 9px;
+    cursor: pointer;
+    transition: all 0.2s;
+    letter-spacing: 0.5px;
+  }
+  .reset-btn:hover { border-color: var(--red); color: var(--red); }
+
+  footer {
+    text-align: center;
+    color: var(--muted);
+    font-size: 12px;
+    margin-top: 50px;
+    font-family: 'Space Mono', monospace;
+  }
+</style>
+</head>
+<body>
+<div class="wrap">
+
+  <header>
+    <div class="tag">Fiat Palio G2 · Manual rápido</div>
+    <h1>MANUAL DO CARRO</h1>
+    <p>Passo a passo para dirigir e checklist dos itens essenciais que devem ficar no veículo. As marcações ficam salvas automaticamente.</p>
+  </header>
+
+  <!-- PASSO A PASSO -->
+  <div class="section-title">
+    <div class="bar"></div>
+    <h2>Passo a passo</h2>
+  </div>
+
+  <div class="steps-grid">
+    <div class="step-card start">
+      <div class="head"><span class="icon">▶</span> Iniciar o carro</div>
+      <ol class="steps">
+        <li>Desligar o alarme</li>
+        <li>Verificar a posição dos pneus</li>
+        <li>Abrir o carro</li>
+        <li>Alinhar os pneus se necessário</li>
+        <li>Verificar assento</li>
+        <li>Verificar os espelhos laterais e de ré</li>
+        <li>Colocar o cinto</li>
+        <li>Verificar se o carro está em ponto morto</li>
+        <li>Ligar o carro e dar seta pra sair</li>
+        <li>Baixar freio de mão</li>
+        <li><span class="note">EM CASO DE RÉ</span>Mudar a marcha e encontrar o ponto da embreagem para dar ré e fazer a manobra controlando no freio</li>
+        <li><span class="note">SE NÃO FOR RÉ</span>Colocar a marcha no 1, encontrar o ponto da marcha com freio acionado, ir soltando com o freio, acelerar e trocar a marcha</li>
+      </ol>
+    </div>
+
+    <div class="step-card stop">
+      <div class="head"><span class="icon">■</span> Desligar o carro</div>
+      <ol class="steps">
+        <li>Estacionar dando seta</li>
+        <li>Frear e verificar no retrovisor se o carro está alinhado à guia</li>
+        <li>Se estiver alinhado, colocar em ponto morto, puxar freio de mão e desligar o carro</li>
+        <li>Tirar a chave de ignição e pegar pertences e documentos necessários</li>
+        <li>Verificar os 3 retrovisores</li>
+        <li>Verificar posicionamento do carro do lado de fora dele</li>
+        <li>Fechar as 2 portas do Palio manualmente com a chave, conferir se está fechado e depois ativar o alarme</li>
+      </ol>
+    </div>
+  </div>
+
+  <!-- AÇÕES FREQUENTES -->
+  <div class="section-title">
+    <div class="bar"></div>
+    <h2>Ações frequentes</h2>
+  </div>
+
+  <div class="routine-grid">
+    <div class="routine-card">
+      <div class="freq"><span class="ic">☀️</span>1x por dia · manhã</div>
+      <div class="desc">Ver se o carro tem coisa em cima, jogar água e limpar pela manhã.</div>
+    </div>
+    <div class="routine-card">
+      <div class="freq"><span class="ic">🛞</span>A cada 7 dias</div>
+      <div class="desc">Encher / calibrar os pneus.</div>
+    </div>
+    <div class="routine-card">
+      <div class="freq"><span class="ic">🔋</span>1x por semana</div>
+      <div class="desc">Ligar o carro por 20 minutos caso não ande com ele — ou desconectar o fio da bateria.<span class="hint">Pedir auxílio do pai pra desconectar.</span></div>
+    </div>
+    <div class="routine-card">
+      <div class="freq"><span class="ic">✅</span>Conferir a cada semana</div>
+      <div class="desc">
+        Verificar o estado dos itens abaixo:
+        <span class="hint">1. Estepe — calibrado e em boas condições</span>
+        <span class="hint">2. Bateria do calibrador portátil</span>
+        <span class="hint">3. Bateria da lanterna</span>
+        <span class="hint">4. Nível da gasolina</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- NÚMEROS DE EMERGÊNCIA -->
+  <div class="section-title">
+    <div class="bar"></div>
+    <h2>Números de emergência</h2>
+  </div>
+
+  <div class="emg-grid">
+    <div class="emg-block">
+      <h3><span class="dot urgent"></span>Emergências gerais</h3>
+      <div class="emg-list">
+        <div class="emg-row"><span class="name">SAMU<span class="meta">Emergência médica</span></span><a class="num big" href="tel:192">192</a></div>
+        <div class="emg-row"><span class="name">Bombeiros<span class="meta">Acidentes, incêndio, resgate</span></span><a class="num big" href="tel:193">193</a></div>
+        <div class="emg-row"><span class="name">Polícia Militar<span class="meta">Segurança</span></span><a class="num big" href="tel:190">190</a></div>
+      </div>
+    </div>
+
+    <div class="emg-block">
+      <h3><span class="dot important"></span>Estradas e rodovias</h3>
+      <div class="emg-list">
+        <div class="emg-row"><span class="name">Polícia Rodoviária Federal<span class="meta">Rodovias federais</span></span><a class="num" href="tel:191">191</a></div>
+        <div class="emg-row"><span class="name">Polícia Rodoviária Estadual<span class="meta">Rodovias de SP</span></span><a class="num" href="tel:198">198</a></div>
+        <div class="emg-row"><span class="name">Artesp<span class="meta">Rodovias paulistas</span></span><a class="num" href="tel:08007277717">0800 727 7717</a></div>
+      </div>
+    </div>
+
+    <div class="emg-block">
+      <h3><span class="dot nice"></span>Defesa Civil / Trânsito</h3>
+      <div class="emg-list">
+        <div class="emg-row"><span class="name">Defesa Civil</span><a class="num" href="tel:199">199</a></div>
+        <div class="emg-row"><span class="name">Disque Denúncia</span><a class="num" href="tel:181">181</a></div>
+        <div class="emg-row"><span class="name">Seu seguro auto<span class="meta">Anote o seu aqui</span></span><span class="num">—</span></div>
+      </div>
+    </div>
+
+    <div class="emg-block guincho">
+      <h3><span class="dot have"></span>Guinchos 24h em Bauru</h3>
+      <div class="emg-list">
+        <div class="emg-row"><span class="name">R87 Guincho e Transporte<span class="meta">⭐ 5.0 · 233 avaliações — o mais avaliado</span></span><a class="num" href="tel:+5514998951311">14 99895-1311</a></div>
+        <div class="emg-row"><span class="name">Guincho Bauru<span class="meta">⭐ 5.0 · forte no atendimento de madrugada</span></span><a class="num" href="tel:+5514998602678">14 99860-2678</a></div>
+        <div class="emg-row"><span class="name">Auto Socorro Esqueda<span class="meta">⭐ 4.9 · +15 anos de mercado</span></span><a class="num" href="tel:+5514998928564">14 99892-8564</a></div>
+        <div class="emg-row"><span class="name">Alfa Guincho<span class="meta">⭐ 4.9 · preço justo, atende viagens</span></span><a class="num" href="tel:+5514997334503">14 99733-4503</a></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- CHECKLIST -->
+  <div class="section-title">
+    <div class="bar"></div>
+    <h2>Checklist de itens</h2>
+  </div>
+  <p class="checklist-intro">Toque em cada item para marcar o que você já tem no carro. Fica salvo mesmo se fechar ou atualizar a página.</p>
+
+  <div class="progress-wrap">
+    <div class="progress-track"><div class="progress-fill" id="fill"></div></div>
+    <div class="progress-label" id="plabel">0 / 0</div>
+  </div>
+
+  <div id="checklist"></div>
+
+  <button class="reset-btn" id="reset">↺ Limpar todas as marcações</button>
+
+  <footer>Feito pra deixar dentro do Palio · marque conforme for equipando</footer>
+</div>
+
+<script>
+  const CATEGORIES = [
+    {
+      title: "Já tenho",
+      dot: "have",
+      items: [
+        { id: "macaco", label: "Macaco", sub: "Para trocar o pneu" },
+        { id: "triangulo", label: "Triângulo de sinalização", sub: "Obrigatório por lei" },
+        { id: "chave_roda", label: "Chave de roda", sub: "Para soltar os parafusos da roda" },
+        { id: "calibrador", label: "Calibrador portátil", sub: "Para calibrar os pneus" },
+      ]
+    },
+    {
+      title: "Urgente",
+      dot: "urgent",
+      items: [
+        { id: "estepe", label: "Estepe calibrado e em bom estado", sub: "Confirmar que está pronto pra uso" },
+        { id: "extintor", label: "Extintor de incêndio", sub: "Atenção à validade — importante num carro mais antigo" },
+        { id: "cabo_chupeta", label: "Cabo chupeta", sub: "Dar partida pela bateria de outro carro na rua" },
+        { id: "carregador", label: "Carregador de bateria 12V 6A", sub: "Recarrega a bateria em casa pela tomada" },
+      ]
+    },
+    {
+      title: "Importante",
+      dot: "important",
+      items: [
+        { id: "lanterna", label: "Lanterna", sub: "Para problemas à noite" },
+        { id: "suporte_celular", label: "Suporte para celular", sub: "Para GPS e usar o celular com segurança" },
+        { id: "carregador_portatil", label: "Carregador portátil", sub: "Power bank para o celular não descarregar" },
+        { id: "primeiros_socorros", label: "Kit de primeiros socorros", sub: "Curativo, gaze, antisséptico" },
+        { id: "chave_fenda", label: "Chave de fenda e chave inglesa", sub: "Resolve a maioria dos apertos simples" },
+        { id: "luvas", label: "Luvas descartáveis", sub: "Para mexer no carro sem se sujar" },
+      ]
+    },
+    {
+      title: "Quando puder",
+      dot: "nice",
+      items: [
+        { id: "fita", label: "Fita isolante", sub: "Reparos rápidos de emergência" },
+        { id: "abracadeiras", label: "Abraçadeiras plásticas", sub: "Surpreendentemente úteis" },
+        { id: "oleo", label: "Óleo do motor (embalagem pequena)", sub: "Do tipo certo pro Palio" },
+        { id: "aditivo", label: "Aditivo de radiador", sub: "Confirme a cor já usada no sistema antes" },
+        { id: "biblia", label: "Bíblia", sub: "Para ter por perto" },
+      ]
+    },
+  ];
+
+  let state = {};
+  const KEY = 'carro_checklist_v1';
+
+  function loadState() {
+    try {
+      const raw = localStorage.getItem(KEY);
+      if (raw) state = JSON.parse(raw);
+    } catch (e) {
+      state = {};
+    }
+  }
+
+  function saveState() {
+    try {
+      localStorage.setItem(KEY, JSON.stringify(state));
+    } catch (e) {
+      console.error('Erro ao salvar', e);
+    }
+  }
+
+  function render() {
+    const root = document.getElementById('checklist');
+    root.innerHTML = '';
+    let total = 0, done = 0;
+
+    const grid = document.createElement('div');
+    grid.className = 'cat-grid';
+
+    CATEGORIES.forEach(cat => {
+      const wrap = document.createElement('div');
+      wrap.className = 'cat';
+      const head = document.createElement('div');
+      head.className = 'cat-head';
+      head.innerHTML = `<span class="dot ${cat.dot}"></span>${cat.title}`;
+      wrap.appendChild(head);
+
+      const list = document.createElement('div');
+      list.className = 'items';
+
+      cat.items.forEach(it => {
+        total++;
+        const checked = !!state[it.id];
+        if (checked) done++;
+        const el = document.createElement('div');
+        el.className = 'item' + (checked ? ' checked' : '');
+        el.innerHTML = `<div class="box"></div><div><div class="label">${it.label}</div><div class="sub">${it.sub}</div></div>`;
+        el.addEventListener('click', () => {
+          state[it.id] = !state[it.id];
+          saveState();
+          render();
+        });
+        list.appendChild(el);
+      });
+
+      wrap.appendChild(list);
+      grid.appendChild(wrap);
+    });
+
+    root.appendChild(grid);
+
+    const pct = total ? Math.round((done / total) * 100) : 0;
+    document.getElementById('fill').style.width = pct + '%';
+    document.getElementById('plabel').textContent = `${done} / ${total}`;
+  }
+
+  document.getElementById('reset').addEventListener('click', () => {
+    state = {};
+    saveState();
+    render();
+  });
+
+  loadState();
+  render();
+</script>
+</body>
+</html>

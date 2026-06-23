@@ -16,6 +16,7 @@
     --red-dim: #b8351f;
     --amber: #f5a623;
     --green: #2ecc71;
+    --blue: #3aa0ff;
     --text: #e8eaed;
     --muted: #8b919c;
     --accent: #e8472b;
@@ -75,12 +76,34 @@
     max-width: 560px;
   }
 
+  /* Quick nav */
+  .nav {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    margin-top: 18px;
+  }
+  .nav a {
+    font-family: 'Space Mono', monospace;
+    font-size: 11px;
+    letter-spacing: 0.5px;
+    text-transform: uppercase;
+    color: var(--muted);
+    text-decoration: none;
+    border: 1px solid var(--line);
+    border-radius: 8px;
+    padding: 6px 10px;
+    transition: all 0.2s;
+  }
+  .nav a:hover { border-color: var(--accent); color: var(--text); }
+
   /* Section titles */
   .section-title {
     display: flex;
     align-items: center;
     gap: 12px;
     margin: 40px 0 18px;
+    scroll-margin-top: 16px;
   }
   .section-title h2 {
     font-weight: 800;
@@ -109,6 +132,7 @@
     background: var(--panel);
     overflow: hidden;
   }
+  .step-card.prep { grid-column: 1 / -1; }
   .step-card .head {
     padding: 16px 20px;
     font-weight: 800;
@@ -119,14 +143,29 @@
     align-items: center;
     gap: 10px;
   }
+  .step-card.prep  .head { background: rgba(245,166,35,0.12); color: var(--amber); border-bottom: 1px solid var(--line); }
   .step-card.start .head { background: rgba(46,204,113,0.12); color: var(--green); border-bottom: 1px solid var(--line); }
-  .step-card.stop .head { background: rgba(232,71,43,0.12); color: var(--red); border-bottom: 1px solid var(--line); }
+  .step-card.stop  .head { background: rgba(232,71,43,0.12); color: var(--red); border-bottom: 1px solid var(--line); }
   .step-card .head .icon { font-size: 18px; }
+
+  .steps-body { counter-reset: step; padding-bottom: 6px; }
+  .phase-label {
+    font-family: 'Space Mono', monospace;
+    font-size: 11px;
+    letter-spacing: 1.5px;
+    text-transform: uppercase;
+    font-weight: 700;
+    padding: 14px 18px 2px;
+    color: var(--muted);
+  }
+  .step-card.prep  .phase-label { color: var(--amber); }
+  .step-card.start .phase-label { color: var(--green); }
+  .step-card.stop  .phase-label { color: var(--red); }
 
   ol.steps {
     list-style: none;
-    counter-reset: step;
-    padding: 12px 18px 18px;
+    counter-reset: none;
+    padding: 6px 18px 14px;
   }
   ol.steps li {
     counter-increment: step;
@@ -163,6 +202,308 @@
     letter-spacing: 0.5px;
     white-space: nowrap;
   }
+  ol.steps li .hold {
+    display: block;
+    font-size: 11.5px;
+    color: var(--amber);
+    margin-top: 3px;
+  }
+
+  /* Rotina / ações frequentes / manutenção */
+  .routine-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 14px;
+  }
+  @media (max-width: 900px) { .routine-grid { grid-template-columns: repeat(2, 1fr); } }
+  @media (max-width: 560px) { .routine-grid { grid-template-columns: 1fr; } }
+
+  .routine-card {
+    border: 1px solid var(--line);
+    border-radius: 13px;
+    background: var(--panel);
+    padding: 18px 18px;
+    position: relative;
+    overflow: hidden;
+  }
+  .routine-card::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 0;
+    width: 4px; height: 100%;
+    background: var(--amber);
+  }
+  .routine-card.diy::before { background: var(--green); }
+  .routine-card.shop::before { background: var(--red); }
+  .routine-card .freq {
+    font-family: 'Space Mono', monospace;
+    font-size: 11px;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    color: var(--amber);
+    font-weight: 700;
+    margin-bottom: 10px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+  .routine-card .freq .ic { font-size: 15px; }
+  .routine-card .desc { font-size: 14px; line-height: 1.45; }
+  .routine-card .desc .hint { display: block; font-size: 12px; color: var(--muted); margin-top: 6px; }
+  .who {
+    display: inline-block;
+    font-family: 'Space Mono', monospace;
+    font-size: 10px;
+    letter-spacing: 0.5px;
+    text-transform: uppercase;
+    padding: 2px 8px;
+    border-radius: 5px;
+    margin-top: 10px;
+    font-weight: 700;
+  }
+  .who.diy  { background: rgba(46,204,113,0.15); color: var(--green); }
+  .who.shop { background: rgba(232,71,43,0.15); color: var(--red); }
+
+  /* Limpeza */
+  .clean-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 18px;
+  }
+  @media (max-width: 720px) { .clean-grid { grid-template-columns: 1fr; } }
+  .clean-card {
+    border: 1px solid var(--line);
+    border-radius: 14px;
+    background: var(--panel);
+    overflow: hidden;
+  }
+  .clean-card .head {
+    padding: 16px 20px;
+    font-weight: 800;
+    font-size: 15px;
+    letter-spacing: 0.5px;
+    border-bottom: 1px solid var(--line);
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+  .clean-card.simple .head { background: rgba(58,160,255,0.12); color: var(--blue); }
+  .clean-card.deep   .head { background: rgba(245,166,35,0.12); color: var(--amber); }
+  .clean-card .body { padding: 14px 20px 20px; }
+  .clean-card .sub {
+    font-family: 'Space Mono', monospace;
+    font-size: 11px;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    color: var(--muted);
+    margin: 14px 0 8px;
+    font-weight: 700;
+  }
+  .clean-card .sub:first-child { margin-top: 0; }
+  .clean-card ul { list-style: none; display: grid; gap: 7px; }
+  .clean-card li {
+    font-size: 13.5px;
+    padding-left: 18px;
+    position: relative;
+    line-height: 1.4;
+  }
+  .clean-card li::before {
+    content: '';
+    position: absolute;
+    left: 0; top: 8px;
+    width: 7px; height: 7px;
+    border-radius: 2px;
+    background: var(--accent);
+  }
+  .clean-card li b { color: var(--text); }
+  .clean-card li .p { color: var(--amber); font-weight: 700; }
+
+  /* Símbolos do painel */
+  .sym-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 12px;
+  }
+  @media (max-width: 760px) { .sym-grid { grid-template-columns: repeat(2, 1fr); } }
+  @media (max-width: 480px) { .sym-grid { grid-template-columns: 1fr; } }
+  .sym {
+    border: 1px solid var(--line);
+    border-left-width: 4px;
+    border-radius: 11px;
+    background: var(--panel);
+    padding: 13px 14px;
+    display: flex;
+    gap: 12px;
+    align-items: flex-start;
+  }
+  .sym.red    { border-left-color: var(--red); }
+  .sym.amber  { border-left-color: var(--amber); }
+  .sym.green  { border-left-color: var(--green); }
+  .sym.blue   { border-left-color: var(--blue); }
+  .sym .glyph {
+    flex-shrink: 0;
+    width: 40px; height: 40px;
+    border-radius: 9px;
+    background: var(--panel-2);
+    border: 1px solid var(--line);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 20px;
+    font-family: 'Space Mono', monospace;
+    font-weight: 700;
+  }
+  .sym.red   .glyph { color: var(--red); }
+  .sym.amber .glyph { color: var(--amber); }
+  .sym.green .glyph { color: var(--green); }
+  .sym.blue  .glyph { color: var(--blue); }
+  .sym .txt .name { font-size: 13.5px; font-weight: 700; }
+  .sym .txt .mean { font-size: 12px; color: var(--muted); margin-top: 3px; line-height: 1.35; }
+  .legend {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 14px;
+    margin-bottom: 16px;
+    font-size: 12px;
+    color: var(--muted);
+    font-family: 'Space Mono', monospace;
+  }
+  .legend span { display: flex; align-items: center; gap: 6px; }
+  .legend i { width: 12px; height: 12px; border-radius: 3px; display: inline-block; }
+
+  /* Links de autoajuda */
+  .links-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 14px;
+  }
+  @media (max-width: 720px) { .links-grid { grid-template-columns: 1fr; } }
+  .link-card {
+    border: 1px solid var(--line);
+    border-radius: 12px;
+    background: var(--panel);
+    padding: 14px 16px;
+  }
+  .link-card .lt {
+    font-size: 14px;
+    font-weight: 700;
+    margin-bottom: 4px;
+    line-height: 1.3;
+  }
+  .link-card .ld { font-size: 12px; color: var(--muted); margin-bottom: 10px; line-height: 1.4; }
+  .link-card .btns { display: flex; flex-wrap: wrap; gap: 8px; }
+  .link-card a.vid {
+    font-family: 'Space Mono', monospace;
+    font-size: 12px;
+    text-decoration: none;
+    color: var(--text);
+    border: 1px solid var(--line);
+    border-radius: 8px;
+    padding: 6px 11px;
+    transition: all 0.2s;
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+  }
+  .link-card a.vid:hover { border-color: var(--accent); background: rgba(232,71,43,0.1); }
+  .link-card a.vid.yt::before { content: '▶'; color: var(--red); font-size: 10px; }
+  .link-card a.vid.tk::before { content: '♪'; color: var(--blue); font-size: 11px; }
+  .link-card .todo {
+    font-family: 'Space Mono', monospace;
+    font-size: 11px;
+    color: var(--amber);
+    border: 1px dashed var(--amber);
+    border-radius: 8px;
+    padding: 6px 11px;
+    display: inline-block;
+  }
+
+  /* Seguro */
+  .info-card {
+    border: 1px solid var(--line);
+    border-radius: 14px;
+    background: var(--panel);
+    padding: 20px 22px;
+  }
+  .info-card .lead { font-size: 14px; color: var(--muted); margin-bottom: 16px; line-height: 1.5; }
+  .info-card h4 {
+    font-family: 'Space Mono', monospace;
+    font-size: 11px;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    color: var(--amber);
+    margin: 18px 0 8px;
+  }
+  .info-card h4:first-of-type { margin-top: 0; }
+  .info-card ul { list-style: none; display: grid; gap: 8px; }
+  .info-card li { font-size: 13.5px; padding-left: 18px; position: relative; line-height: 1.45; }
+  .info-card li::before {
+    content: '';
+    position: absolute; left: 0; top: 8px;
+    width: 7px; height: 7px; border-radius: 2px;
+    background: var(--accent);
+  }
+  .info-card li b { color: var(--text); }
+
+  /* Emergency numbers */
+  .emg-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 14px;
+  }
+  @media (max-width: 760px) { .emg-grid { grid-template-columns: repeat(2, 1fr); } }
+  @media (max-width: 480px) { .emg-grid { grid-template-columns: 1fr; } }
+
+  .emg-block {
+    border: 1px solid var(--line);
+    border-radius: 13px;
+    background: var(--panel);
+    padding: 16px 16px 8px;
+  }
+  .emg-block.guincho, .emg-block.mecanico { grid-column: 1 / -1; }
+  .emg-block h3 {
+    font-size: 12px;
+    text-transform: uppercase;
+    letter-spacing: 1.2px;
+    color: var(--muted);
+    margin-bottom: 12px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+  .emg-list { display: grid; gap: 0; }
+  .guincho .emg-list, .mecanico .emg-list {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 0 24px;
+  }
+  @media (max-width: 620px) { .guincho .emg-list, .mecanico .emg-list { grid-template-columns: 1fr; } }
+
+  .emg-row {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 10px;
+    padding: 11px 0;
+    border-bottom: 1px dashed var(--line);
+  }
+  .emg-row:last-child { border-bottom: none; }
+  .emg-row .name { font-size: 13.5px; font-weight: 600; }
+  .emg-row .name .meta { display: block; font-size: 11px; color: var(--muted); font-weight: 400; margin-top: 2px; }
+  .emg-row .num {
+    font-family: 'Space Mono', monospace;
+    font-size: 15px;
+    font-weight: 700;
+    color: var(--accent);
+    white-space: nowrap;
+    text-decoration: none;
+    padding: 4px 10px;
+    border: 1px solid var(--line);
+    border-radius: 8px;
+    transition: all 0.2s;
+  }
+  a.num:hover { border-color: var(--accent); background: rgba(232,71,43,0.1); }
+  .emg-row .num.big { font-size: 18px; color: var(--red); }
+  .emg-row .num.star { color: var(--amber); border-color: var(--amber); }
 
   /* Checklist */
   .checklist-intro {
@@ -234,10 +575,7 @@
   .dot.nice { background: var(--green); }
   .dot.have { background: var(--muted); }
 
-  .items {
-    display: grid;
-    gap: 8px;
-  }
+  .items { display: grid; gap: 8px; }
 
   .item {
     display: flex;
@@ -264,10 +602,7 @@
     transition: all 0.2s;
     margin-top: 1px;
   }
-  .item.checked .box {
-    background: var(--green);
-    border-color: var(--green);
-  }
+  .item.checked .box { background: var(--green); border-color: var(--green); }
   .item.checked .box::after {
     content: '';
     position: absolute;
@@ -280,105 +615,6 @@
   .item .label { font-size: 13.5px; font-weight: 600; line-height: 1.3; }
   .item .sub { font-size: 11.5px; color: var(--muted); margin-top: 3px; font-weight: 400; line-height: 1.35; }
   .item.checked .label { color: var(--muted); text-decoration: line-through; text-decoration-color: var(--green); }
-
-  /* Rotina / ações frequentes */
-  .routine-grid {
-    display: grid;
-    grid-template-columns: repeat(3, 1fr);
-    gap: 14px;
-  }
-  @media (max-width: 900px) { .routine-grid { grid-template-columns: repeat(2, 1fr); } }
-  @media (max-width: 560px) { .routine-grid { grid-template-columns: 1fr; } }
-
-  .routine-card {
-    border: 1px solid var(--line);
-    border-radius: 13px;
-    background: var(--panel);
-    padding: 18px 18px;
-    position: relative;
-    overflow: hidden;
-  }
-  .routine-card::before {
-    content: '';
-    position: absolute;
-    top: 0; left: 0;
-    width: 4px; height: 100%;
-    background: var(--amber);
-  }
-  .routine-card .freq {
-    font-family: 'Space Mono', monospace;
-    font-size: 11px;
-    letter-spacing: 1px;
-    text-transform: uppercase;
-    color: var(--amber);
-    font-weight: 700;
-    margin-bottom: 10px;
-    display: flex;
-    align-items: center;
-    gap: 8px;
-  }
-  .routine-card .freq .ic { font-size: 15px; }
-  .routine-card .desc { font-size: 14px; line-height: 1.45; }
-  .routine-card .desc .hint { display: block; font-size: 12px; color: var(--muted); margin-top: 6px; }
-
-  /* Emergency numbers */
-  .emg-grid {
-    display: grid;
-    grid-template-columns: repeat(3, 1fr);
-    gap: 14px;
-  }
-  @media (max-width: 760px) { .emg-grid { grid-template-columns: repeat(2, 1fr); } }
-  @media (max-width: 480px) { .emg-grid { grid-template-columns: 1fr; } }
-
-  .emg-block {
-    border: 1px solid var(--line);
-    border-radius: 13px;
-    background: var(--panel);
-    padding: 16px 16px 8px;
-  }
-  .emg-block.guincho { grid-column: 1 / -1; }
-  .emg-block h3 {
-    font-size: 12px;
-    text-transform: uppercase;
-    letter-spacing: 1.2px;
-    color: var(--muted);
-    margin-bottom: 12px;
-    display: flex;
-    align-items: center;
-    gap: 8px;
-  }
-  .emg-list { display: grid; gap: 0; }
-  .guincho .emg-list {
-    grid-template-columns: repeat(2, 1fr);
-    gap: 0 24px;
-  }
-  @media (max-width: 620px) { .guincho .emg-list { grid-template-columns: 1fr; } }
-
-  .emg-row {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    gap: 10px;
-    padding: 11px 0;
-    border-bottom: 1px dashed var(--line);
-  }
-  .emg-row:last-child { border-bottom: none; }
-  .emg-row .name { font-size: 13.5px; font-weight: 600; }
-  .emg-row .name .meta { display: block; font-size: 11px; color: var(--muted); font-weight: 400; margin-top: 2px; }
-  .emg-row .num {
-    font-family: 'Space Mono', monospace;
-    font-size: 15px;
-    font-weight: 700;
-    color: var(--accent);
-    white-space: nowrap;
-    text-decoration: none;
-    padding: 4px 10px;
-    border: 1px solid var(--line);
-    border-radius: 8px;
-    transition: all 0.2s;
-  }
-  a.num:hover { border-color: var(--accent); background: rgba(232,71,43,0.1); }
-  .emg-row .num.big { font-size: 18px; color: var(--red); }
 
   .reset-btn {
     margin-top: 8px;
@@ -410,50 +646,102 @@
   <header>
     <div class="tag">Fiat Palio G2 · Manual rápido</div>
     <h1>MANUAL DO CARRO</h1>
-    <p>Passo a passo para dirigir e checklist dos itens essenciais que devem ficar no veículo. As marcações ficam salvas automaticamente.</p>
+    <p>Passo a passo para dirigir, manutenção, limpeza, painel e checklist dos itens essenciais. As marcações ficam salvas automaticamente.</p>
+    <nav class="nav">
+      <a href="#passos">Passo a passo</a>
+      <a href="#acoes">Ações frequentes</a>
+      <a href="#manutencao">Manutenção</a>
+      <a href="#limpeza">Limpeza</a>
+      <a href="#painel">Painel</a>
+      <a href="#ajuda">Autoajuda</a>
+      <a href="#seguro">Seguro</a>
+      <a href="#emergencia">Emergência</a>
+      <a href="#checklist">Checklist</a>
+    </nav>
   </header>
 
   <!-- PASSO A PASSO -->
-  <div class="section-title">
+  <div class="section-title" id="passos">
     <div class="bar"></div>
     <h2>Passo a passo</h2>
   </div>
 
   <div class="steps-grid">
-    <div class="step-card start">
-      <div class="head"><span class="icon">▶</span> Iniciar o carro</div>
-      <ol class="steps">
-        <li>Desligar o alarme</li>
-        <li>Verificar a posição dos pneus</li>
-        <li>Abrir o carro</li>
-        <li>Alinhar os pneus se necessário</li>
-        <li>Verificar assento</li>
-        <li>Verificar os espelhos laterais e de ré</li>
-        <li>Colocar o cinto</li>
-        <li>Verificar se o carro está em ponto morto</li>
-        <li>Ligar o carro e dar seta pra sair</li>
-        <li>Baixar freio de mão</li>
-        <li><span class="note">EM CASO DE RÉ</span>Mudar a marcha e encontrar o ponto da embreagem para dar ré e fazer a manobra controlando no freio</li>
-        <li><span class="note">SE NÃO FOR RÉ</span>Colocar a marcha no 1, encontrar o ponto da marcha com freio acionado, ir soltando com o freio, acelerar e trocar a marcha</li>
-      </ol>
+
+    <!-- ANTES DE SAIR DE CASA -->
+    <div class="step-card prep">
+      <div class="head"><span class="icon">🎒</span> Antes de sair de casa</div>
+      <div class="steps-body">
+        <div class="phase-label">Conferência rápida</div>
+        <ol class="steps">
+          <li>Peguei a chave do carro</li>
+          <li>Documentos pessoais (CNH / RG)</li>
+          <li>Documento do carro (CRLV — digital ou impresso)</li>
+          <li>Celular com internet ativa e bateria carregada</li>
+          <li>Carregador portátil (power bank) carregado</li>
+          <li>Calibrador portátil carregado</li>
+        </ol>
+      </div>
     </div>
 
+    <!-- INICIAR -->
+    <div class="step-card start">
+      <div class="head"><span class="icon">▶</span> Iniciar o carro</div>
+      <div class="steps-body">
+        <div class="phase-label">Antes de entrar no carro</div>
+        <ol class="steps">
+          <li>Desligar o alarme</li>
+          <li>Verificar a posição dos pneus</li>
+          <li>Abrir o carro</li>
+          <li>Entrar no carro</li>
+        </ol>
+        <div class="phase-label">Dentro do carro</div>
+        <ol class="steps">
+          <li>Arrumar o assento</li>
+          <li>Conferir os espelhos</li>
+          <li>Colocar o cinto de segurança</li>
+          <li>Pisar no freio e na embreagem</li>
+          <li>Ligar o carro</li>
+          <li>Engatar o carro <span class="hold">(ainda segurando embreagem e freio pisados)</span></li>
+          <li>Alinhar os pneus se necessário</li>
+          <li>Abaixar o freio de mão</li>
+          <li>Dar seta se precisar</li>
+          <li><span class="note">EM CASO DE RÉ</span>Mudar a marcha e encontrar o ponto da embreagem para dar ré e fazer a manobra controlando no freio</li>
+          <li><span class="note">SE NÃO FOR RÉ</span>Colocar a marcha no 1, encontrar o ponto da marcha com freio acionado, ir soltando com o freio, acelerar e trocar a marcha</li>
+        </ol>
+      </div>
+    </div>
+
+    <!-- DESLIGAR -->
     <div class="step-card stop">
       <div class="head"><span class="icon">■</span> Desligar o carro</div>
-      <ol class="steps">
-        <li>Estacionar dando seta</li>
-        <li>Frear e verificar no retrovisor se o carro está alinhado à guia</li>
-        <li>Se estiver alinhado, colocar em ponto morto, puxar freio de mão e desligar o carro</li>
-        <li>Tirar a chave de ignição e pegar pertences e documentos necessários</li>
-        <li>Verificar os 3 retrovisores</li>
-        <li>Verificar posicionamento do carro do lado de fora dele</li>
-        <li>Fechar as 2 portas do Palio manualmente com a chave, conferir se está fechado e depois ativar o alarme</li>
-      </ol>
+      <div class="steps-body">
+        <div class="phase-label">Dentro do carro</div>
+        <ol class="steps">
+          <li>Estacionar dando seta</li>
+          <li>Conferir os espelhos para alinhamento e ver se não está muito perto do carro da frente ou de trás</li>
+          <li>Se estiver alinhado, com o freio e a embreagem pisados, puxe o freio de mão e desligue o carro</li>
+          <li>Engatar a marcha 1 e soltar o freio do pé e a embreagem</li>
+          <li>Tirar o cinto</li>
+          <li><span class="note">ANTES DE ABRIR A PORTA</span>Olhar na rua: carro vindo, pedestre, ciclista, bandido, etc.</li>
+          <li>Sair do carro</li>
+        </ol>
+        <div class="phase-label">Fora do carro</div>
+        <ol class="steps">
+          <li>Trancar o carro</li>
+          <li>Conferir o alinhamento do carro</li>
+          <li>Conferir se os vidros estão fechados</li>
+          <li>Conferir se as luzes estão apagadas</li>
+          <li>Conferir se as portas estão trancadas</li>
+          <li>Ativar o alarme</li>
+        </ol>
+      </div>
     </div>
+
   </div>
 
   <!-- AÇÕES FREQUENTES -->
-  <div class="section-title">
+  <div class="section-title" id="acoes">
     <div class="bar"></div>
     <h2>Ações frequentes</h2>
   </div>
@@ -487,8 +775,336 @@
     </div>
   </div>
 
+  <!-- MANUTENÇÃO / ACOMPANHAMENTOS -->
+  <div class="section-title" id="manutencao">
+    <div class="bar"></div>
+    <h2>Manutenção · acompanhamentos</h2>
+  </div>
+  <div class="legend">
+    <span><i style="background:var(--green)"></i> Você mesmo resolve</span>
+    <span><i style="background:var(--red)"></i> Levar na oficina</span>
+  </div>
+
+  <div class="routine-grid">
+    <div class="routine-card diy">
+      <div class="freq"><span class="ic">🛢️</span>Mensal · nível do óleo</div>
+      <div class="desc">Conferir com a vareta, motor frio e no plano. Completar se estiver abaixo do mínimo.<span class="hint">Use o óleo correto pro Palio G2.</span></div>
+      <span class="who diy">Faço eu</span>
+    </div>
+    <div class="routine-card shop">
+      <div class="freq"><span class="ic">🔧</span>A cada 6 meses · troca de óleo</div>
+      <div class="desc">Trocar óleo do motor + filtro de óleo (ou a cada 5.000–7.500 km, o que vier antes).</div>
+      <span class="who shop">Oficina</span>
+    </div>
+    <div class="routine-card diy">
+      <div class="freq"><span class="ic">🌡️</span>A cada 15 dias · aditivo / radiador</div>
+      <div class="desc">Conferir o nível do líquido de arrefecimento no reservatório (motor frio). Repor se estiver baixando.<span class="hint">Se baixa sempre, pode ser vazamento → oficina.</span></div>
+      <span class="who diy">Faço eu</span>
+    </div>
+    <div class="routine-card diy">
+      <div class="freq"><span class="ic">🛑</span>Mensal · óleo de freio</div>
+      <div class="desc">Conferir o nível do fluido de freio no reservatório. Se estiver baixo, atenção — não dirija sem checar.</div>
+      <span class="who diy">Confiro eu</span>
+    </div>
+    <div class="routine-card shop">
+      <div class="freq"><span class="ic">🛑</span>A cada 1–2 anos · troca fluido freio</div>
+      <div class="desc">Trocar o fluido de freio completo. Fluido velho perde eficiência.</div>
+      <span class="who shop">Oficina</span>
+    </div>
+    <div class="routine-card diy">
+      <div class="freq"><span class="ic">💦</span>Quando acabar · água do limpador</div>
+      <div class="desc">Repor a água do esguicho do para-brisa no reservatório.</div>
+      <span class="who diy">Faço eu</span>
+    </div>
+    <div class="routine-card diy">
+      <div class="freq"><span class="ic">🔋</span>A cada 6 meses · bateria</div>
+      <div class="desc">Conferir terminais (limpos, sem zinabre) e firmes. Vida útil ~2–3 anos.</div>
+      <span class="who diy">Confiro eu</span>
+    </div>
+    <div class="routine-card shop">
+      <div class="freq"><span class="ic">🌀</span>~10.000 km · filtros</div>
+      <div class="desc">Filtro de ar, filtro de combustível e filtro de cabine (ar-condicionado).</div>
+      <span class="who shop">Oficina</span>
+    </div>
+    <div class="routine-card shop">
+      <div class="freq"><span class="ic">🛞</span>~10.000 km · freios e pneus</div>
+      <div class="desc">Verificar pastilhas/lonas de freio e o desgaste/alinhamento e balanceamento dos pneus.</div>
+      <span class="who shop">Oficina</span>
+    </div>
+    <div class="routine-card shop">
+      <div class="freq"><span class="ic">⚙️</span>~60.000 km · correia dentada</div>
+      <div class="desc">Item crítico no Palio. Se arrebentar, pode quebrar o motor. Trocar no prazo do manual.</div>
+      <span class="who shop">Oficina</span>
+    </div>
+    <div class="routine-card shop">
+      <div class="freq"><span class="ic">🔥</span>~20.000–30.000 km · velas</div>
+      <div class="desc">Trocar velas de ignição (e cabos, se preciso). Falha → carro engasga/gasta mais.</div>
+      <span class="who shop">Oficina</span>
+    </div>
+    <div class="routine-card shop">
+      <div class="freq"><span class="ic">📅</span>Anual · revisão geral</div>
+      <div class="desc">Revisão completa de suspensão, escapamento, luzes e folgas. Bom levar 1x por ano.</div>
+      <span class="who shop">Oficina</span>
+    </div>
+  </div>
+
+  <!-- LIMPEZA -->
+  <div class="section-title" id="limpeza">
+    <div class="bar"></div>
+    <h2>Limpeza do carro</h2>
+  </div>
+
+  <div class="clean-grid">
+    <div class="clean-card simple">
+      <div class="head"><span>🧼</span> Lavagem simples (rotina)</div>
+      <div class="body">
+        <div class="sub">O que usar</div>
+        <ul>
+          <li><b>Balde com água</b> (de preferência 2: um pra lavar, um pra enxaguar a luva)</li>
+          <li><b>Detergente neutro</b> diluído (ou shampoo automotivo)</li>
+          <li>Luva ou esponja de <b>microfibra</b></li>
+          <li>Pano de microfibra seco pra secar</li>
+        </ul>
+        <div class="sub">Passo a passo</div>
+        <ul>
+          <li>Lavar <b>na sombra</b>, nunca no sol forte (mancha a pintura)</li>
+          <li>Molhar o carro todo primeiro pra soltar a terra</li>
+          <li>Fazer espuma e lavar <b>de cima pra baixo</b>: teto → vidros → laterais → por último os para-choques (mais sujos)</li>
+          <li>Rodas e pneus <b>por último</b>, com luva separada</li>
+          <li>Enxaguar bem e <b>secar com microfibra</b> pra não deixar marca de água</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="clean-card deep">
+      <div class="head"><span>✨</span> Limpeza detalhada (por produto)</div>
+      <div class="body">
+        <div class="sub">Cada parte, seu produto</div>
+        <ul>
+          <li><b>Pneus:</b> <span class="p">pretinho</span> (renovador) com aplicador próprio — só na borracha, longe do disco de freio</li>
+          <li><b>Rodas:</b> limpa-rodas / desengraxante + escova macia</li>
+          <li><b>Vidros:</b> limpa-vidros automotivo + microfibra exclusiva (sem fiapo)</li>
+          <li><b>Painel e plásticos:</b> limpa-plásticos / silicone com microfibra; cotonete nos cantos</li>
+          <li><b>Bancos de tecido:</b> aspirar primeiro, depois APC (multiuso) diluído + escova macia</li>
+          <li><b>Pintura:</b> shampoo automotivo (pH neutro); <b>cera</b> 1x/mês pra proteger e dar brilho</li>
+          <li><b>Cheiro:</b> aromatizante; tapetes lavados e secos à sombra</li>
+        </ul>
+        <div class="sub">Regra dos panos (importante)</div>
+        <ul>
+          <li>Microfibra <b>branca</b> → vidros</li>
+          <li>Microfibra de <b>outra cor</b> → pintura/carroceria</li>
+          <li>Pano <b>exclusivo</b> → rodas e pneus (nunca usar na pintura — risca)</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+
+  <!-- PAINEL -->
+  <div class="section-title" id="painel">
+    <div class="bar"></div>
+    <h2>Símbolos do painel</h2>
+  </div>
+  <div class="legend">
+    <span><i style="background:var(--red)"></i> Pare / urgente</span>
+    <span><i style="background:var(--amber)"></i> Atenção</span>
+    <span><i style="background:var(--blue)"></i> Informação</span>
+    <span><i style="background:var(--green)"></i> Em funcionamento</span>
+  </div>
+
+  <div class="sym-grid">
+    <div class="sym red">
+      <div class="glyph">🛢️</div>
+      <div class="txt"><div class="name">Pressão do óleo</div><div class="mean">Acendeu andando = PARE o carro. Pode estar sem pressão de óleo. Não rode assim.</div></div>
+    </div>
+    <div class="sym red">
+      <div class="glyph">🌡️</div>
+      <div class="txt"><div class="name">Temperatura do motor</div><div class="mean">Motor superaquecendo. Pare, desligue e deixe esfriar. Nunca abra o radiador quente.</div></div>
+    </div>
+    <div class="sym red">
+      <div class="glyph">🔋</div>
+      <div class="txt"><div class="name">Carga da bateria</div><div class="mean">Problema na bateria ou no alternador. O carro pode desligar e não voltar. Vá à oficina.</div></div>
+    </div>
+    <div class="sym red">
+      <div class="glyph">(!)</div>
+      <div class="txt"><div class="name">Freio</div><div class="mean">Freio de mão puxado ou fluido de freio baixo. Confira antes de andar.</div></div>
+    </div>
+    <div class="sym red">
+      <div class="glyph">🚹</div>
+      <div class="txt"><div class="name">Airbag</div><div class="mean">Falha no sistema de airbag. Pode não acionar em uma batida. Verifique na oficina.</div></div>
+    </div>
+    <div class="sym red">
+      <div class="glyph">🔔</div>
+      <div class="txt"><div class="name">Cinto de segurança</div><div class="mean">Cinto não afivelado. Coloque o cinto.</div></div>
+    </div>
+    <div class="sym amber">
+      <div class="glyph">⚙️</div>
+      <div class="txt"><div class="name">Injeção / motor (check engine)</div><div class="mean">Falha no motor ou injeção eletrônica. Dá pra rodar com cuidado, mas leve à oficina logo.</div></div>
+    </div>
+    <div class="sym amber">
+      <div class="glyph">ABS</div>
+      <div class="txt"><div class="name">Freio ABS</div><div class="mean">Falha no ABS. O freio normal funciona, mas sem o antitravamento. Verifique.</div></div>
+    </div>
+    <div class="sym amber">
+      <div class="glyph">⛽</div>
+      <div class="txt"><div class="name">Combustível</div><div class="mean">Reserva acabando. Abasteça antes de ficar na mão.</div></div>
+    </div>
+    <div class="sym blue">
+      <div class="glyph">🔵</div>
+      <div class="txt"><div class="name">Farol alto</div><div class="mean">Luz alta ligada. Apague ao cruzar com outros carros pra não ofuscar.</div></div>
+    </div>
+    <div class="sym green">
+      <div class="glyph">💡</div>
+      <div class="txt"><div class="name">Faróis / lanternas</div><div class="mean">Luzes do carro ligadas. Lembre de apagar ao estacionar.</div></div>
+    </div>
+    <div class="sym green">
+      <div class="glyph">⇆</div>
+      <div class="txt"><div class="name">Setas / pisca-alerta</div><div class="mean">Seta acionada (pisca verde). Os dois juntos = pisca-alerta ligado.</div></div>
+    </div>
+  </div>
+
+  <!-- LINKS DE AUTOAJUDA -->
+  <div class="section-title" id="ajuda">
+    <div class="bar"></div>
+    <h2>Links de autoajuda</h2>
+  </div>
+  <p class="checklist-intro">Vídeos pra treinar manobras e situações. Onde marca <b style="color:var(--amber)">PROCURAR VÍDEO</b>, ainda falta achar um bom vídeo.</p>
+
+  <div class="links-grid">
+
+    <div class="link-card">
+      <div class="lt">O que olhar ao dar ré para não bater</div>
+      <div class="ld">O que observar nos espelhos e ao redor na hora da ré.</div>
+      <div class="btns"><a class="vid yt" href="https://www.youtube.com/shorts/ivr0uRE8VlI" target="_blank" rel="noopener">Short</a></div>
+    </div>
+
+    <div class="link-card">
+      <div class="lt">Freio de pé ou freio de mão para sair na ladeira</div>
+      <div class="ld">Qual usar para sair em subida sem o carro voltar.</div>
+      <div class="btns"><a class="vid yt" href="https://www.youtube.com/shorts/9h4yaULj7bA" target="_blank" rel="noopener">Short</a></div>
+    </div>
+
+    <div class="link-card">
+      <div class="lt">Como sair de ré de uma garagem</div>
+      <div class="ld">Manobra de saída de ré em garagem.</div>
+      <div class="btns"><a class="vid yt" href="https://www.youtube.com/shorts/P5GtRgnemMk" target="_blank" rel="noopener">Short</a></div>
+    </div>
+
+    <div class="link-card">
+      <div class="lt">Saída de ré em garagem estreita</div>
+      <div class="ld">Sair de ré quando o espaço é apertado (método M4P).</div>
+      <div class="btns"><a class="vid yt" href="https://www.youtube.com/shorts/TfLGvj7QaN8" target="_blank" rel="noopener">Short</a></div>
+    </div>
+
+    <div class="link-card">
+      <div class="lt">Verificar o ponto morto antes de ligar o carro</div>
+      <div class="ld">Conferir se a marcha está no neutro antes da partida.</div>
+      <div class="btns"><span class="todo">PROCURAR VÍDEO</span></div>
+    </div>
+
+    <div class="link-card">
+      <div class="lt">Sair e entrar com o carro na garagem</div>
+      <div class="ld">IMPORTANTE: contar as voltas do volante. ⚠️ Ponto de atenção: rever o controle de embreagem pra sair e entrar de ré.</div>
+      <div class="btns">
+        <a class="vid yt" href="https://www.youtube.com/watch?v=DIdw9vIOg0Y" target="_blank" rel="noopener">Vídeo</a>
+        <a class="vid yt" href="https://www.youtube.com/shorts/dcrq9Apy7-A" target="_blank" rel="noopener">Short</a>
+      </div>
+    </div>
+
+    <div class="link-card">
+      <div class="lt">Sair com o carro em subida</div>
+      <div class="ld">Arrancar em rampa sem o carro voltar nem morrer.</div>
+      <div class="btns"><span class="todo">PROCURAR VÍDEO</span></div>
+    </div>
+
+    <div class="link-card">
+      <div class="lt">Manter o carro alinhado na pista</div>
+      <div class="ld">Posicionamento e referência visual pra não sair da faixa.</div>
+      <div class="btns"><span class="todo">PROCURAR VÍDEO</span></div>
+    </div>
+
+    <div class="link-card">
+      <div class="lt">Como fazer baliza</div>
+      <div class="ld">Estacionar em paralelo entre dois carros.</div>
+      <div class="btns">
+        <a class="vid yt" href="https://www.youtube.com/shorts/gkVd22t-Hw0" target="_blank" rel="noopener">Short 1</a>
+        <a class="vid yt" href="https://www.youtube.com/shorts/ibyKf8O8AbA" target="_blank" rel="noopener">Short 2</a>
+        <a class="vid tk" href="https://www.tiktok.com/@robertotrincadoinstrutor/video/7219807527716801797" target="_blank" rel="noopener">TikTok</a>
+      </div>
+    </div>
+
+    <div class="link-card">
+      <div class="lt">Estacionar em estacionamento ou mercado</div>
+      <div class="ld">Entrar na vaga em estacionamentos (vaga perpendicular).</div>
+      <div class="btns"><span class="todo">PROCURAR VÍDEO</span></div>
+    </div>
+
+    <div class="link-card">
+      <div class="lt">Como estacionar corretamente</div>
+      <div class="ld">Regras gerais pra estacionar bem e seguro.</div>
+      <div class="btns"><span class="todo">PROCURAR VÍDEO</span></div>
+    </div>
+
+    <div class="link-card">
+      <div class="lt">Como abastecer o carro no posto</div>
+      <div class="ld">Passo a passo no posto (lado do tanque, frentista, pagamento).</div>
+      <div class="btns"><span class="todo">PROCURAR VÍDEO</span></div>
+    </div>
+
+    <div class="link-card">
+      <div class="lt">Como ter campo de visão</div>
+      <div class="ld">Regular espelhos e postura pra enxergar tudo ao redor.</div>
+      <div class="btns"><a class="vid yt" href="https://www.youtube.com/watch?v=2zknCnd5zBg" target="_blank" rel="noopener">Vídeo</a></div>
+    </div>
+
+    <div class="link-card">
+      <div class="lt">Trocar pneu do Palio G2</div>
+      <div class="ld">Trocar o pneu com macaco, chave de roda e estepe.</div>
+      <div class="btns"><span class="todo">PROCURAR VÍDEO</span></div>
+    </div>
+
+  </div>
+
+  <!-- SEGURO -->
+  <div class="section-title" id="seguro">
+    <div class="bar"></div>
+    <h2>Seguro do carro</h2>
+  </div>
+
+  <div class="info-card">
+    <p class="lead">Ainda preciso fazer o seguro. Roteiro pra contratar sem erro e anotar os dados aqui depois.</p>
+
+    <h4>Que tipo contratar</h4>
+    <ul>
+      <li><b>Seguro total (auto):</b> cobre roubo, furto, batida, incêndio e terceiros. Mais completo, mais caro.</li>
+      <li><b>Só terceiros (RCF):</b> mais barato; cobre o prejuízo que você causar a outros (útil num carro mais antigo).</li>
+      <li><b>Proteção veicular / associação:</b> mais barata, mas confira a reputação e o que cobre — não é seguradora regulada.</li>
+    </ul>
+
+    <h4>Como cotar</h4>
+    <ul>
+      <li>Fazer cotação em <b>pelo menos 3 lugares</b>: corretor, app/seguradora grande e uma associação local.</li>
+      <li>Comparar preço x cobertura — o mais barato nem sempre vale a pena.</li>
+    </ul>
+
+    <h4>Documentos pra cotar</h4>
+    <ul>
+      <li>CNH, CRLV (documento do carro), comprovante de endereço e o <b>CEP onde o carro dorme</b>.</li>
+    </ul>
+
+    <h4>Perguntar sempre</h4>
+    <ul>
+      <li>Valor da <b>franquia</b>, cobertura de <b>terceiros</b>, carro reserva, cobertura de <b>vidros</b>.</li>
+      <li>Se tem <b>assistência 24h</b> (guincho, chaveiro, pane seca, troca de pneu).</li>
+    </ul>
+
+    <h4>Depois de fechar</h4>
+    <ul>
+      <li>Anotar o <b>número da apólice</b> e o <b>telefone da assistência 24h</b> no campo "Seu seguro auto" nos números de emergência abaixo.</li>
+    </ul>
+  </div>
+
   <!-- NÚMEROS DE EMERGÊNCIA -->
-  <div class="section-title">
+  <div class="section-title" id="emergencia">
     <div class="bar"></div>
     <h2>Números de emergência</h2>
   </div>
@@ -521,6 +1137,18 @@
       </div>
     </div>
 
+    <div class="emg-block mecanico">
+      <h3><span class="dot important"></span>Mecânicos 24h</h3>
+      <div class="emg-list">
+        <div class="emg-row"><span class="name">Vinicius — Auto Elétrica e Mecânica 24h<span class="meta">⭐ Principal</span></span><a class="num star" href="tel:+5514997124117">14 99712-4117</a></div>
+        <div class="emg-row"><span class="name">Victor Santos<span class="meta">⭐ Principal</span></span><a class="num star" href="tel:+5514998249795">14 99824-9795</a></div>
+        <div class="emg-row"><span class="name">Auto Socorro Esqueda<span class="meta">Auto socorro 24h · Bauru</span></span><a class="num" href="tel:+5514997316884">14 99731-6884</a></div>
+        <div class="emg-row"><span class="name">Bauru Help Socorro Automotivo 24h<span class="meta">Socorro automotivo · Bauru</span></span><a class="num" href="tel:+5514996986739">14 99698-6739</a></div>
+        <div class="emg-row"><span class="name">Alpha Prime Mecânica<span class="meta">Mecânica · Bauru</span></span><a class="num" href="tel:+5514991678680">14 99167-8680</a></div>
+        <div class="emg-row"><span class="name">Oficina 24horas<span class="meta">Mecânica 24h · Bauru</span></span><a class="num" href="tel:+5514997198508">14 99719-8508</a></div>
+      </div>
+    </div>
+
     <div class="emg-block guincho">
       <h3><span class="dot have"></span>Guinchos 24h em Bauru</h3>
       <div class="emg-list">
@@ -533,7 +1161,7 @@
   </div>
 
   <!-- CHECKLIST -->
-  <div class="section-title">
+  <div class="section-title" id="checklist">
     <div class="bar"></div>
     <h2>Checklist de itens</h2>
   </div>
@@ -544,7 +1172,7 @@
     <div class="progress-label" id="plabel">0 / 0</div>
   </div>
 
-  <div id="checklist"></div>
+  <div id="checklist-list"></div>
 
   <button class="reset-btn" id="reset">↺ Limpar todas as marcações</button>
 
@@ -619,7 +1247,7 @@
   }
 
   function render() {
-    const root = document.getElementById('checklist');
+    const root = document.getElementById('checklist-list');
     root.innerHTML = '';
     let total = 0, done = 0;
 
